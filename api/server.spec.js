@@ -19,16 +19,16 @@ describe('Server test', () => {
     describe('Can reach the GET /', () => {
         it('responds with 200 ok', () => {
             return supertest(server)
-            .get('/')
-            .expect(200)
+                .get('/')
+                .expect(200)
         })
 
         it('responds with api being up and running', async () => {
             await supertest(server)
-            .get('/')
-            .then(res => {
-                expect(res.body).toEqual({ api: 'up' })
-            })
+                .get('/')
+                .then(res => {
+                    expect(res.body).toEqual({ api: 'up' })
+                })
         })
     })
 
@@ -37,8 +37,8 @@ describe('Server test', () => {
     describe('Can reach GET /games', () => {
         it('responds with 200 ok', () => {
             return supertest(server)
-            .get('/games')
-            .expect(200)
+                .get('/games')
+                .expect(200)
         })
     })
 
@@ -46,38 +46,34 @@ describe('Server test', () => {
 
     describe('Can reach post for /games', () => {
         it('should add a game', async () => {
-            await insert({ 
-                name: 'League of Legends',
+            await insert({
+                title: 'League of Legends',
                 genre: 'MOBA',
                 releaseYear: 2009
             })
-            await insert({ 
-                name: 'Runescape',
-                genre: 'MMORPG',
-                releaseYear: 2001
-            })
 
             const games = await db('games');
-            expect(games).toHaveLength(2)
+            expect(games).toHaveLength(1)
         })
 
-        it('Should display a 201 success', async () => {
+
+        it('Should display 201 success', async () => {
             await supertest(server)
-            .post('/games')
-            .expect(201)
-        })
+                .post('/games')
+            expect(201);
+        });
     })
 
     // delete for /games
 
     describe('Can react DELETE for /games', () => {
         it('should delete game', async () => {
-            await remove({ 
+            await remove({
                 name: 'League of Legends',
                 genre: 'MOBA',
                 releaseYear: 2009
             })
-            await remove({ 
+            await remove({
                 name: 'Runescape',
                 genre: 'MMORPG',
                 releaseYear: 2001
@@ -85,10 +81,10 @@ describe('Server test', () => {
         })
         it('should display 401 games not found', async () => {
             await supertest(server)
-            .delete('/:id')
-            .then(res => {
-                expect(res.body).toEqual({ message: 'Game not found' })
-            })
+                .delete('/:id')
+                .then(res => {
+                    expect(res.body).toEqual({ message: 'Game not found' })
+                })
         })
     })
 })

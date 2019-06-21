@@ -6,7 +6,7 @@ exports.up = function (knex, Promise) {
 
         tbl.string('genre', 255).notNullable()
 
-        tbl.interger('releaseYear', 255)
+        tbl.integer('releaseYear', 255)
     })
 
 };
